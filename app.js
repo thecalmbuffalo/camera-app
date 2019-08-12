@@ -1,15 +1,12 @@
-var constraints = { video: { facingMode: "user" }, audio: false };
+var constraints = { video: { facingMode: "environme" }, audio: false };
 var track = null;
-
 const cameraView = document.querySelector("#camera--view"),
       cameraOutput = document.querySelector("#camera--output"),
       cameraSensor = document.querySelector("#camera--sensor"),
       cameraTrigger = document.querySelector("#camera--trigger");
-
 const video = document.getElementById('video');
 const button = document.getElementById('button');
 const select = document.getElementById('select');
-
 function gotDevices(mediaDevices) {
   select.innerHTML = '';
   select.appendChild(document.createElement('option'));
@@ -25,8 +22,6 @@ function gotDevices(mediaDevices) {
     }
   });
 }
-
-
 function cameraStart() {
     navigator.mediaDevices
         .getUserMedia(constraints)
@@ -37,5 +32,11 @@ function cameraStart() {
         console.error("Oops.", error);
     });
 }
+cameraTrigger.onclick = function() {
+    cameraSensor.width = cameraView.videoWidth;
+    cameraSensor.height = cameraView.videoHeight;
+    cameraSensor.getContext ("2d").drawImage(cameraView, 0, 0);
+    cameraOutput.src = cameraSensor.toDataURL("image/webp");
+    cameraOutput.classList.add("taken");
+};
 window.addEventListener("load", cameraStart, false);
-        
