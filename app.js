@@ -6,6 +6,26 @@ const cameraView = document.querySelector("#camera--view"),
       cameraSensor = document.querySelector("#camera--sensor"),
       cameraTrigger = document.querySelector("#camera--trigger");
 
+const video = document.getElementById('video');
+const button = document.getElementById('button');
+const select = document.getElementById('select');
+
+function gotDevices(mediaDevices) {
+  select.innerHTML = '';
+  select.appendChild(document.createElement('option'));
+  let count = 1;
+  mediaDevices.forEach(mediaDevice => {
+    if (mediaDevice.kind === 'videoinput') {
+      const option = document.createElement('option');
+      option.value = mediaDevice.deviceId;
+      const label = mediaDevice.label || `Camera ${count++}`;
+      const textNode = document.createTextNode(label);
+      option.appendChild(textNode);
+      select.appendChild(option);
+    }
+  });
+}
+
 
 function cameraStart() {
     navigator.mediaDevices
